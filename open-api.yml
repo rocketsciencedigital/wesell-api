@@ -38,6 +38,7 @@ paths:
       parameters: []
       security:
         - 'Bearer: jwtToken': []
+      description: Get the requested user information
     patch:
       summary: Update User
       operationId: patch-user-userid
@@ -116,31 +117,6 @@ paths:
                 - username
                 - password
   '/account/{accountId}':
-    get:
-      summary: Get Account
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Account-Model'
-              examples: {}
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    $ref: '#/components/schemas/Error-Model'
-      operationId: get-account
-      security:
-        - 'Bearer: jwtToken': []
-      requestBody: {}
-      description: ''
     parameters:
       - schema:
           type: string
@@ -301,7 +277,6 @@ paths:
       operationId: get-store-storeid
       security:
         - 'Bearer: jwtToken': []
-      requestBody: {}
     patch:
       summary: Update Store
       operationId: patch-store-storeid
@@ -367,7 +342,9 @@ paths:
     get:
       summary: Get Store Products
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: get-products
     parameters:
       - schema:
@@ -447,10 +424,11 @@ components:
         name:
           type: string
         owner:
-          $ref: '#/components/schemas/User'
+          $ref: '#/components/schemas/User-Model'
       required:
         - name
         - owner
+      description: ''
     Error-Model:
       title: Error-Model
       type: object
