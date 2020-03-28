@@ -262,10 +262,40 @@ paths:
               properties:
                 name:
                   type: string
+  '/store/{storeid}':
+    parameters:
+      - schema:
+          type: string
+        name: storeid
+        in: path
+        required: true
+    get:
+      summary: Get Store
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store-Model'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error-Model'
+      operationId: get-store-storeid
+      security:
+        - 'Bearer: jwtToken': []
+      requestBody: {}
 components:
   schemas:
     User-Model:
-      title: User
+      title: User-Model
       type: object
       properties:
         id:
@@ -281,7 +311,7 @@ components:
         - first_name
         - last_name
     Account-Model:
-      title: Account
+      title: Account-Model
       type: object
       properties:
         id:
@@ -295,7 +325,7 @@ components:
         - name
         - owner
     Error-Model:
-      title: Error
+      title: Error-Model
       type: object
       properties:
         key:
