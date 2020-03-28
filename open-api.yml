@@ -11,7 +11,8 @@ paths:
     parameters: []
     get:
       summary: Get User
-      tags: []
+      tags:
+        - User
       responses:
         '200':
           description: OK
@@ -173,6 +174,8 @@ paths:
         description: ''
       security:
         - 'Bearer: jwtToken': []
+      tags:
+        - Account
     delete:
       summary: Delete Account
       operationId: delete-account
@@ -248,7 +251,8 @@ paths:
     parameters: []
     get:
       summary: Get Store
-      tags: []
+      tags:
+        - Store
       responses:
         '200':
           description: OK
@@ -337,7 +341,8 @@ paths:
     parameters: []
     get:
       summary: Publish the Store
-      tags: []
+      tags:
+        - Store
       responses:
         '200':
           description: OK
@@ -381,6 +386,8 @@ paths:
             schema:
               type: string
               format: binary
+      tags:
+        - Store
     patch:
       summary: Update Store Logo
       operationId: patch-store-storeid-logo
@@ -428,7 +435,8 @@ paths:
     parameters: []
     get:
       summary: Get Product
-      tags: []
+      tags:
+        - Product
       responses:
         '200':
           description: OK
@@ -495,7 +503,8 @@ paths:
   /account/stores:
     get:
       summary: Get the Stores for an Account
-      tags: []
+      tags:
+        - Account
       responses:
         '200':
           description: OK
@@ -518,7 +527,9 @@ paths:
   /users/accounts:
     get:
       summary: Get Accounts for a Given User
-      tags: []
+      tags:
+        - Account
+        - User
       responses:
         '200':
           description: OK
@@ -541,7 +552,9 @@ paths:
   /store/products:
     get:
       summary: Get Products for a given Store
-      tags: []
+      tags:
+        - Store
+        - Product
       responses:
         '200':
           description: OK
