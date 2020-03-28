@@ -487,7 +487,7 @@ paths:
                   description: The product ID to be removed
   /account/stores:
     get:
-      summary: Your GET endpoint
+      summary: Get the Stores for an Account
       tags: []
       responses:
         '200':
@@ -507,6 +507,30 @@ paths:
               properties:
                 account_id:
                   type: string
+      description: This returns all the stores for a given account
+  /users/accounts:
+    get:
+      summary: Get Accounts for a Given User
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account-Response'
+      operationId: get-users-accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+      description: Gets a list of accounts for the user
 components:
   schemas:
     User-Model:
