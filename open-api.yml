@@ -236,9 +236,35 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
+  /store:
+    post:
+      summary: Create Store
+      operationId: post-store
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error-Model'
+      security:
+        - 'Bearer: jwtToken': []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
 components:
   schemas:
-    User:
+    User-Model:
       title: User
       type: object
       properties:
@@ -254,7 +280,7 @@ components:
       required:
         - first_name
         - last_name
-    Account:
+    Account-Model:
       title: Account
       type: object
       properties:
@@ -268,7 +294,7 @@ components:
       required:
         - name
         - owner
-    Error:
+    Error-Model:
       title: Error
       type: object
       properties:
@@ -282,6 +308,12 @@ components:
         - key
         - status
         - error
+    Store-Model:
+      title: Store-Model
+      type: object
+      properties:
+        id:
+          type: string
   securitySchemes:
     'Bearer: jwtToken':
       name: Authorzation
