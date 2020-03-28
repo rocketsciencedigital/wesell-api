@@ -584,8 +584,8 @@ paths:
     get:
       summary: Get Accounts for a Given User
       tags:
-        - Account
         - User
+        - Account
       responses:
         '200':
           description: OK
