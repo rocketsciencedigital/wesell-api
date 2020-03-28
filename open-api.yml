@@ -610,16 +610,20 @@ paths:
       tags:
         - Account
     get:
-      summary: ''
+      summary: Get Account
       operationId: get-account-accountid
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account-Response'
       tags:
         - Account
   /account:
     post:
-      summary: ''
+      summary: Create Account
       operationId: post-account
       responses:
         '200':
