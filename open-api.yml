@@ -486,32 +486,11 @@ paths:
       description: Removes the logo from the store
       tags:
         - Store
-
-  /product/{productid}:
-    parameters:
-      - schema:
-          type: string
-        name: productid
-        in: path
-        required: true
-    get:
-      summary: Get Product
-      tags:
-        - Product
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product-Response'
-      operationId: get-store-storeid-product
-     
   /product:
     parameters: []
     post:
       summary: Create Product
-      operationId: post-store-storeid-product
+      operationId: post-product
       responses:
         '200':
           description: OK
@@ -528,7 +507,7 @@ paths:
         - Product
     patch:
       summary: Update Product
-      operationId: patch-store-storeid-product
+      operationId: patch-product
       responses:
         '200':
           description: OK
@@ -661,6 +640,26 @@ paths:
       - schema:
           type: string
         name: storeid
+        in: path
+        required: true
+  '/product/{productid}':
+    get:
+      summary: Get Product
+      tags:
+        - Product
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product-Response'
+      operationId: get-productid-product
+      description: ''
+    parameters:
+      - schema:
+          type: string
+        name: productid
         in: path
         required: true
 components:
