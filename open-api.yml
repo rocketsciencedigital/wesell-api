@@ -74,6 +74,40 @@ paths:
                   type: string
                 last_name:
                   type: string
+      tags:
+        - User
+      description: ''
+    post:
+      summary: ''
+      operationId: post-user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User-Model'
+                  token:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error-Model'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User-Create'
+      tags:
+        - User
   /auth/login:
     post:
       summary: Login
@@ -153,6 +187,8 @@ paths:
                   type: string
                 account:
                   $ref: '#/components/schemas/Account-Request'
+      tags:
+        - Account
     get:
       summary: Get Account
       operationId: get-account
@@ -194,6 +230,8 @@ paths:
         Delete an account.
 
         Deleting an account will also delete all Stores and Products from the system
+      tags:
+        - Account
     post:
       summary: Create Account
       operationId: post-account
@@ -214,6 +252,8 @@ paths:
                   $ref: '#/components/schemas/Account-Request'
                 owner_id:
                   type: string
+      tags:
+        - Account
   /auth:
     post:
       summary: Create Authentication
@@ -295,6 +335,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Store-Update'
+      tags:
+        - Store
     post:
       summary: Create Store
       operationId: post-store
@@ -322,6 +364,8 @@ paths:
       description: ''
       security:
         - 'Bearer: jwtToken': []
+      tags:
+        - Store
     delete:
       summary: Delete Store
       operationId: delete-store
@@ -337,6 +381,8 @@ paths:
                 id:
                   type: string
       description: This will remove the store and all asociated products
+      tags:
+        - Store
   /store/publish:
     parameters: []
     get:
@@ -415,6 +461,8 @@ paths:
               format: binary
       security:
         - 'Bearer: jwtToken': []
+      tags:
+        - Store
     delete:
       summary: Delete Store Logo
       operationId: delete-store-storeid-logo
@@ -431,6 +479,8 @@ paths:
                   error:
                     $ref: '#/components/schemas/Error-Model'
       description: Removes the logo from the store
+      tags:
+        - Store
   /product:
     parameters: []
     get:
@@ -470,6 +520,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Product-Create'
+      tags:
+        - Product
     patch:
       summary: Update Product
       operationId: patch-store-storeid-product
@@ -485,6 +537,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Product-Update'
+      tags:
+        - Product
     delete:
       summary: Delete Product
       operationId: delete-product
@@ -500,6 +554,8 @@ paths:
                 id:
                   type: string
                   description: The product ID to be removed
+      tags:
+        - Product
   /account/stores:
     get:
       summary: Get the Stores for an Account
@@ -758,6 +814,19 @@ components:
             - Archived
       required:
         - id
+    User-Create:
+      title: User-Create
+      type: object
+      properties:
+        auth_id:
+          type: string
+          description: The authentication ID to be associated to the user
+        first_name:
+          type: string
+        last_name:
+          type: string
+      required:
+        - auth_id
   securitySchemes:
     'Bearer: jwtToken':
       name: Authorzation
