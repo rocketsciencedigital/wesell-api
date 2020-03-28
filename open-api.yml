@@ -615,6 +615,8 @@ paths:
       responses:
         '200':
           description: OK
+      tags:
+        - Account
   /account:
     post:
       summary: ''
@@ -632,7 +634,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Account-Request'
+              type: object
+              properties:
+                owner_user_id:
+                  type: string
+                account:
+                  $ref: '#/components/schemas/Account-Request'
+      tags:
+        - Account
 components:
   schemas:
     User-Model:
