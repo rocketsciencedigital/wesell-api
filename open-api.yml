@@ -116,23 +116,18 @@ paths:
               required:
                 - username
                 - password
-  '/account/{accountId}':
-    parameters:
-      - schema:
-          type: string
-        name: accountId
-        in: path
-        required: true
+  /account:
+    parameters: []
     patch:
       summary: Update Account
-      operationId: patch-account-accountId
+      operationId: patch-account
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Account-Model'
+                $ref: '#/components/schemas/Account-Response'
         '401':
           description: Unauthorized
           content:
@@ -148,9 +143,49 @@ paths:
             schema:
               type: object
               properties:
-                account_name:
+                id:
                   type: string
-  /account:
+                account:
+                  $ref: '#/components/schemas/Account-Request'
+    get:
+      summary: Get Account
+      operationId: get-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account-Response'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+        description: ''
+      security:
+        - 'Bearer: jwtToken': []
+    delete:
+      summary: Delete Account
+      operationId: delete-account
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+      description: |-
+        Delete an account.
+
+        Deleting an account will also delete all Stores and Products from the system
     post:
       summary: Create Account
       operationId: post-account
@@ -160,19 +195,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Account-Model'
-      description: Create account
+                $ref: '#/components/schemas/Account-Response'
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                account_name:
+                account:
+                  $ref: '#/components/schemas/Account-Request'
+                owner_id:
                   type: string
-        description: ''
-      security:
-        - 'Bearer: jwtToken': []
   /auth:
     post:
       summary: Create Authentication
@@ -204,57 +237,8 @@ paths:
                 - username
                 - password
       description: Create an authentication
-  /user:
-    post:
-      summary: Create User
-      operationId: post-user
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User-Model'
-      security:
-        - 'Bearer: jwtToken': []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User-Model'
   /store:
-    post:
-      summary: Create Store
-      operationId: post-store
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    $ref: '#/components/schemas/Error-Model'
-      security:
-        - 'Bearer: jwtToken': []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-  '/store/{storeid}':
-    parameters:
-      - schema:
-          type: string
-        name: storeid
-        in: path
-        required: true
+    parameters: []
     get:
       summary: Get Store
       tags: []
@@ -264,7 +248,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Store-Model'
+                $ref: '#/components/schemas/Store-Response'
         '401':
           description: Unauthorized
           content:
@@ -277,6 +261,14 @@ paths:
       operationId: get-store-storeid
       security:
         - 'Bearer: jwtToken': []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
     patch:
       summary: Update Store
       operationId: patch-store-storeid
@@ -286,41 +278,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Store-Model'
+                $ref: '#/components/schemas/Store-Response'
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-  '/store/{storeid}/logo':
-    parameters:
-      - schema:
-          type: string
-        name: storeid
-        in: path
-        required: true
+              $ref: '#/components/schemas/Store-Update'
     post:
-      summary: Create Store Logo
-      operationId: post-store-storeid-logo
+      summary: Create Store
+      operationId: post-store
       responses:
         '200':
           description: OK
-      requestBody:
-        description: ''
-        content:
-          application/octet-stream:
-            schema:
-              type: string
-              format: binary
-    patch:
-      summary: Update Store Logo
-      operationId: patch-store-storeid-logo
-      responses:
-        '200':
-          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store-Response'
         '401':
           description: Unauthorized
           content:
@@ -332,47 +305,27 @@ paths:
                     $ref: '#/components/schemas/Error-Model'
       requestBody:
         content:
-          application/octet-stream:
+          application/json:
             schema:
-              type: string
-              format: binary
+              $ref: '#/components/schemas/Store-Create'
+      description: ''
       security:
         - 'Bearer: jwtToken': []
-  '/store/{storeid}/products':
-    get:
-      summary: Get Store Products
-      tags: []
+    delete:
+      summary: Delete Store
+      operationId: delete-store
       responses:
         '200':
           description: OK
-      operationId: get-products
-    parameters:
-      - schema:
-          type: string
-        name: storeid
-        in: path
-        required: true
-  '/store/{storeid}/publish':
-    parameters:
-      - schema:
-          type: string
-        name: storeid
-        in: path
-        required: true
-    get:
-      summary: Publish the Store
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Store-Model'
-      operationId: get-store-storeid-publish
-      security:
-        - 'Bearer: jwtToken': []
-      description: This  publishes the store live to the web
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+      description: This will remove the store and all asociated products
   '/account/{accountId}/stores':
     parameters:
       - schema:
@@ -391,11 +344,148 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Store-Model'
+                  $ref: '#/components/schemas/Store-Response'
       operationId: get-account-accountId-liststores
       security:
         - 'Bearer: jwtToken': []
       description: List all the stores in the account
+  '/store/{storeid}/publish':
+    parameters:
+      - schema:
+          type: string
+        name: storeid
+        in: path
+        required: true
+    get:
+      summary: Publish the Store
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store-Response'
+      operationId: get-store-storeid-publish
+      security:
+        - 'Bearer: jwtToken': []
+      description: This  publishes the store live to the web
+  '/store/{storeid}/logo':
+    parameters:
+      - schema:
+          type: string
+        name: storeid
+        in: path
+        required: true
+    post:
+      summary: Create Store Logo
+      operationId: post-store-storeid-logo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store-Response'
+      requestBody:
+        description: ''
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+    patch:
+      summary: Update Store Logo
+      operationId: patch-store-storeid-logo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store-Response'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error-Model'
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      security:
+        - 'Bearer: jwtToken': []
+    delete:
+      summary: Delete Store Logo
+      operationId: delete-store-storeid-logo
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error-Model'
+      description: Removes the logo from the store
+  '/store/{storeid}/product':
+    parameters:
+      - schema:
+          type: string
+        name: storeid
+        in: path
+        required: true
+    get:
+      summary: Get Product
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product-Model'
+      operationId: get-store-storeid-product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product-Model'
+    post:
+      summary: Create Product
+      operationId: post-store-storeid-product
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+    patch:
+      summary: ''
+      operationId: patch-store-storeid-product
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
 components:
   schemas:
     User-Model:
@@ -414,21 +504,21 @@ components:
       required:
         - first_name
         - last_name
-    Account-Model:
+    Account-Response:
       title: Account-Model
       type: object
+      description: ''
       properties:
         id:
           type: string
           example: da46a6d3-71ce-4647-9a10-13b68135e649
-        name:
+        account_name:
           type: string
         owner:
           $ref: '#/components/schemas/User-Model'
       required:
-        - name
+        - account_name
         - owner
-      description: ''
     Error-Model:
       title: Error-Model
       type: object
@@ -443,18 +533,80 @@ components:
         - key
         - status
         - error
-    Store-Model:
-      title: Store-Model
+    Store-Response:
+      title: Store-Response
+      type: object
+      properties:
+        id:
+          type: string
+        publish_version:
+          type: integer
+        logo_url:
+          type: string
+        store_name:
+          type: string
+        store_url:
+          type: string
+        store_description:
+          type: string
+        store_theme:
+          type: string
+    Product-Model:
+      title: Product-Model
       type: object
       properties:
         id:
           type: string
         name:
           type: string
-        logo_url:
+        description:
           type: string
-        publish_version:
-          type: integer
+        price:
+          type: string
+        image_urls:
+          type: array
+          items:
+            type: string
+        quantity:
+          type: string
+        state:
+          type: string
+          enum:
+            - Active
+            - SoldOut
+            - Archived
+      required:
+        - name
+    Account-Request:
+      title: Account-Request
+      type: object
+      properties:
+        account_name:
+          type: string
+        '':
+          type: string
+    Store-Create:
+      title: Store-Create
+      type: object
+      properties:
+        store_name:
+          type: string
+        store_description:
+          type: string
+        store_theme:
+          type: string
+      required:
+        - store_name
+    Store-Update:
+      title: Store-Update
+      type: object
+      properties:
+        store_name:
+          type: string
+        store_description:
+          type: string
+        store_theme:
+          type: string
   securitySchemes:
     'Bearer: jwtToken':
       name: Authorzation
