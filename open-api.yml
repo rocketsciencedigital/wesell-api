@@ -395,7 +395,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: List Accounts Stores
       tags: []
       responses:
         '200':
