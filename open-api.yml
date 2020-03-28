@@ -23,7 +23,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/User-Model'
               examples: {}
         '400':
           description: Bad Request
@@ -33,7 +33,7 @@ paths:
                 type: object
                 properties:
                   error:
-                    $ref: '#/components/schemas/Error'
+                    $ref: '#/components/schemas/Error-Model'
       operationId: get-users-userid
       parameters: []
       security:
