@@ -117,6 +117,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Account'
               examples: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
       operationId: get-account
       security:
         - 'Bearer: jwtToken': []
@@ -151,6 +160,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
       description: Create account
       requestBody:
         content:
@@ -211,6 +229,88 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
+  /store:
+    put:
+      summary: ''
+      operationId: put-store
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+      security:
+        - 'Bearer: jwtToken': []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+    post:
+      summary: ''
+      operationId: post-store
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+      security:
+        - 'Bearer: jwtToken': []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: My New Store
+  '/store/{storeid}':
+    parameters:
+      - schema:
+          type: string
+        name: storeid
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+      operationId: get-store-storeid
+      security:
+        - 'Bearer: jwtToken': []
 components:
   schemas:
     User:
@@ -257,6 +357,14 @@ components:
         - key
         - status
         - error
+    Store:
+      title: Store
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
   securitySchemes:
     'Bearer: jwtToken':
       name: Authorzation
