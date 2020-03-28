@@ -1,11 +1,16 @@
 openapi: 3.0.0
 info:
-  title: store api
-  version: '0.1'
-  description: Inital definitions for the app
+  title: Simple Inventory API
+  version: 1.0.0
+  description: The inital spect
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  contact:
+    email: you@your-company.com
 servers:
-  - url: ' http://127.0.0.1:4010'
-    description: Prsim
+  - description: SwaggerHub API Auto Mocking
+    url: 'https://virtserver.swaggerhub.com/red010b37/wesell/1.0.0'
 paths:
   /user:
     parameters: []
@@ -580,7 +585,7 @@ paths:
                 account_id:
                   type: string
       description: This returns all the stores for a given account
-  /users/accounts:
+  '/user/{userid}/accounts':
     get:
       summary: Get Accounts for a Given User
       tags:
@@ -595,16 +600,23 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Account-Response'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account-Response'
       operationId: get-users-accounts
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                user_id:
-                  type: string
+      requestBody: {}
       description: Gets a list of accounts for the user
+    parameters:
+      - schema:
+          type: string
+        name: userid
+        in: path
+        required: true
   /store/products:
     get:
       summary: Get Products for a given Store
@@ -832,3 +844,9 @@ components:
       name: Authorzation
       type: apiKey
       in: header
+tags:
+  - name: Authentication
+  - name: User
+  - name: Account
+  - name: Store
+  - name: Product
