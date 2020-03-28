@@ -329,13 +329,8 @@ paths:
                 id:
                   type: string
       description: This will remove the store and all asociated products
-  '/store/{storeid}/publish':
-    parameters:
-      - schema:
-          type: string
-        name: storeid
-        in: path
-        required: true
+  /store/publish:
+    parameters: []
     get:
       summary: Publish the Store
       tags: []
@@ -346,10 +341,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Store-Response'
-      operationId: get-store-storeid-publish
+      operationId: get-store-publish
       security:
         - 'Bearer: jwtToken': []
       description: This  publishes the store live to the web
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                store_id:
+                  type: string
   '/store/{storeid}/logo':
     parameters:
       - schema:
@@ -531,6 +534,48 @@ paths:
                 user_id:
                   type: string
       description: Gets a list of accounts for the user
+  /store/products:
+    get:
+      summary: Get Products for a given Store
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ''
+      operationId: get-store-products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                store_id:
+                  type: string
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: The ammount of product to get on this request
+        - schema:
+            type: integer
+          in: query
+          name: page
+        - schema:
+            type: string
+            enum:
+              - Active
+              - SoldOut
+              - Archive
+          in: query
+          name: state
+          description: filter the request by product state
+      description: 'Get the products for a store, if no query params are passed all products are returned'
 components:
   schemas:
     User-Model:
