@@ -386,7 +386,7 @@ paths:
       operationId: get-store-storeid-publish
       security:
         - 'Bearer: jwtToken': []
-      description: This  publishes the users store
+      description: This  publishes the store live to the web
   '/account/{accountId}/stores':
     parameters:
       - schema:
@@ -409,6 +409,7 @@ paths:
       operationId: get-account-accountId-liststores
       security:
         - 'Bearer: jwtToken': []
+      description: List all the stores in the account
 components:
   schemas:
     User-Model:
