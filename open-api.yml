@@ -1,7 +1,8 @@
 openapi: 3.0.0
 info:
   title: store api
-  version: '1.0'
+  version: '0.1'
+  description: Inital definitions for the app
 servers:
   - url: ' http://127.0.0.1:4010'
 paths:
@@ -119,12 +120,26 @@ paths:
       operationId: get-account
       security:
         - 'Bearer: jwtToken': []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                account_name:
+                  type: string
     parameters:
       - schema:
           type: string
         name: accountId
         in: path
         required: true
+    put:
+      summary: ''
+      operationId: put-account-accountId
+      responses:
+        '200':
+          description: OK
   /account:
     post:
       summary: ''
