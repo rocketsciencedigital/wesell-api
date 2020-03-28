@@ -161,104 +161,6 @@ paths:
                 - password
       tags:
         - Authentication
-  /account:
-    parameters: []
-    patch:
-      summary: Update Account
-      operationId: patch-account
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Account-Response'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    $ref: '#/components/schemas/Error-Model'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                account:
-                  $ref: '#/components/schemas/Account-Request'
-      tags:
-        - Account
-    get:
-      summary: Get Account
-      operationId: get-account
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Account-Response'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-        description: ''
-      security:
-        - 'Bearer: jwtToken': []
-      tags:
-        - Account
-    delete:
-      summary: Delete Account
-      operationId: delete-account
-      responses:
-        '200':
-          description: OK
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-      description: |-
-        Delete an account.
-
-        Deleting an account will also delete all Stores and Products from the system
-      tags:
-        - Account
-    post:
-      summary: Create Account
-      operationId: post-account
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Account-Response'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                account:
-                  $ref: '#/components/schemas/Account-Request'
-                owner_id:
-                  type: string
-      tags:
-        - Account
   /auth:
     post:
       summary: Create Authentication
@@ -662,6 +564,75 @@ paths:
         name: productid
         in: path
         required: true
+  '/account/{accountid}':
+    parameters:
+      - schema:
+          type: string
+        name: accountid
+        in: path
+        required: true
+    patch:
+      summary: Update Account
+      operationId: patch-account-accountid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account-Response'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error-Model'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account-Request'
+      tags:
+        - Account
+    delete:
+      summary: Delete Account
+      operationId: delete-account-accountid
+      responses:
+        '200':
+          description: OK
+      description: |-
+        Delete an account.
+
+        Deleting an account will also delete all Stores and Products from the system
+      tags:
+        - Account
+    get:
+      summary: ''
+      operationId: get-account-accountid
+      responses:
+        '200':
+          description: OK
+  /account:
+    post:
+      summary: ''
+      operationId: post-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account-Response'
+      security:
+        - 'Bearer: jwtToken': []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account-Request'
 components:
   schemas:
     User-Model:
