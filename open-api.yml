@@ -7,13 +7,8 @@ servers:
   - url: ' http://127.0.0.1:4010'
     description: Prsim
 paths:
-  '/user/{userid}':
-    parameters:
-      - schema:
-          type: string
-        name: userid
-        in: path
-        required: true
+  /user:
+    parameters: []
     get:
       summary: Get User
       tags: []
@@ -39,6 +34,14 @@ paths:
       security:
         - 'Bearer: jwtToken': []
       description: Get the requested user information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
     patch:
       summary: Update User
       operationId: patch-user-userid
@@ -326,29 +329,6 @@ paths:
                 id:
                   type: string
       description: This will remove the store and all asociated products
-  '/account/{accountId}/stores':
-    parameters:
-      - schema:
-          type: string
-        name: accountId
-        in: path
-        required: true
-    get:
-      summary: List Accounts Stores
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Store-Response'
-      operationId: get-account-accountId-liststores
-      security:
-        - 'Bearer: jwtToken': []
-      description: List all the stores in the account
   '/store/{storeid}/publish':
     parameters:
       - schema:
@@ -437,13 +417,8 @@ paths:
                   error:
                     $ref: '#/components/schemas/Error-Model'
       description: Removes the logo from the store
-  '/store/{storeid}/product':
-    parameters:
-      - schema:
-          type: string
-        name: storeid
-        in: path
-        required: true
+  /product:
+    parameters: []
     get:
       summary: Get Product
       tags: []
@@ -453,16 +428,51 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product-Model'
+                $ref: '#/components/schemas/Product-Response'
       operationId: get-store-storeid-product
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Product-Model'
+              type: object
+              properties:
+                id:
+                  type: string
+              required:
+                - id
     post:
       summary: Create Product
       operationId: post-store-storeid-product
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product-Response'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product-Create'
+    patch:
+      summary: Update Product
+      operationId: patch-store-storeid-product
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product-Response'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product-Update'
+    delete:
+      summary: Delete Product
+      operationId: delete-product
       responses:
         '200':
           description: OK
@@ -472,20 +482,31 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                id:
                   type: string
-    patch:
-      summary: ''
-      operationId: patch-store-storeid-product
+                  description: The product ID to be removed
+  /account/stores:
+    get:
+      summary: Your GET endpoint
+      tags: []
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Store-Response'
+      operationId: get-account-stores
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              properties: {}
+              properties:
+                account_id:
+                  type: string
 components:
   schemas:
     User-Model:
@@ -551,8 +572,8 @@ components:
           type: string
         store_theme:
           type: string
-    Product-Model:
-      title: Product-Model
+    Product-Response:
+      title: Product-Response
       type: object
       properties:
         id:
@@ -607,6 +628,50 @@ components:
           type: string
         store_theme:
           type: string
+    Product-Create:
+      title: Product-Create
+      type: object
+      properties:
+        store_id:
+          type: string
+          description: The store this product will be added to
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: string
+        quantity:
+          type: string
+        state:
+          type: string
+          enum:
+            - Active
+            - SoldOut
+            - Archived
+    Product-Update:
+      title: Product-Update
+      type: object
+      properties:
+        id:
+          type: string
+          description: The product ID to update
+        name:
+          type: string
+        "description'":
+          type: string
+        price:
+          type: string
+        quantity:
+          type: string
+        state:
+          type: string
+          enum:
+            - Active
+            - SoldOut
+            - Archived
+      required:
+        - id
   securitySchemes:
     'Bearer: jwtToken':
       name: Authorzation
