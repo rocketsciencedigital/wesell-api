@@ -5,6 +5,7 @@ info:
   description: Inital definitions for the app
 servers:
   - url: ' http://127.0.0.1:4010'
+    description: Prsim
 paths:
   '/user/{userid}':
     parameters:
@@ -228,7 +229,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/User-Model'
       security:
         - 'Bearer: jwtToken': []
       requestBody:
@@ -292,6 +293,122 @@ paths:
       security:
         - 'Bearer: jwtToken': []
       requestBody: {}
+    patch:
+      summary: Update Store
+      operationId: patch-store-storeid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store-Model'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+  '/store/{storeid}/logo':
+    parameters:
+      - schema:
+          type: string
+        name: storeid
+        in: path
+        required: true
+    post:
+      summary: Create Store Logo
+      operationId: post-store-storeid-logo
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        description: ''
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+    patch:
+      summary: Update Store Logo
+      operationId: patch-store-storeid-logo
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error-Model'
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      security:
+        - 'Bearer: jwtToken': []
+  '/store/{storeid}/products':
+    get:
+      summary: Get Store Products
+      tags: []
+      responses: {}
+      operationId: get-products
+    parameters:
+      - schema:
+          type: string
+        name: storeid
+        in: path
+        required: true
+  '/store/{storeid}/publish':
+    parameters:
+      - schema:
+          type: string
+        name: storeid
+        in: path
+        required: true
+    get:
+      summary: Publish the Store
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store-Model'
+      operationId: get-store-storeid-publish
+      security:
+        - 'Bearer: jwtToken': []
+      description: This  publishes the users store
+  '/account/{accountId}/stores':
+    parameters:
+      - schema:
+          type: string
+        name: accountId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Store-Model'
+      operationId: get-account-accountId-liststores
+      security:
+        - 'Bearer: jwtToken': []
 components:
   schemas:
     User-Model:
@@ -344,6 +461,12 @@ components:
       properties:
         id:
           type: string
+        name:
+          type: string
+        logo_url:
+          type: string
+        publish_version:
+          type: integer
   securitySchemes:
     'Bearer: jwtToken':
       name: Authorzation
