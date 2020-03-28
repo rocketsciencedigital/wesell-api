@@ -119,6 +119,8 @@ paths:
               required:
                 - username
                 - password
+      tags:
+        - Authentication
   /account:
     parameters: []
     patch:
@@ -240,6 +242,8 @@ paths:
                 - username
                 - password
       description: Create an authentication
+      tags:
+        - Authentication
   /store:
     parameters: []
     get:
