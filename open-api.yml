@@ -1,0 +1,249 @@
+openapi: 3.0.0
+info:
+  title: store api
+  version: '1.0'
+servers:
+  - url: ' http://127.0.0.1:4010'
+paths:
+  '/user/{userid}':
+    parameters:
+      - schema:
+          type: string
+        name: userid
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+      operationId: get-users-userid
+      parameters: []
+      security:
+        - 'Bearer: jwtToken': []
+    put:
+      summary: ''
+      operationId: put-user-userid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                '':
+                  type: string
+  /auth/login:
+    post:
+      summary: ''
+      operationId: post-auth-login
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                required:
+                  - user
+                  - token
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+  '/account/{accountId}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+              examples: {}
+      operationId: get-account
+      security:
+        - 'Bearer: jwtToken': []
+    parameters:
+      - schema:
+          type: string
+        name: accountId
+        in: path
+        required: true
+  /account:
+    post:
+      summary: ''
+      operationId: post-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+      description: Create account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                account_name:
+                  type: string
+      security:
+        - 'Bearer: jwtToken': []
+  /auth:
+    post:
+      summary: Create Authentication
+      operationId: post-auth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                required:
+                  - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      description: Create an authentication
+  /user:
+    post:
+      summary: ''
+      operationId: post-user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security:
+        - 'Bearer: jwtToken': []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      properties:
+        id:
+          type: string
+          example: c4f63571-1b6f-401e-9832-0bbeb3ffb78b
+        first_name:
+          type: string
+          example: Paul
+        last_name:
+          type: string
+          example: Sanderson
+      required:
+        - first_name
+        - last_name
+    Account:
+      title: Account
+      type: object
+      properties:
+        id:
+          type: string
+          example: da46a6d3-71ce-4647-9a10-13b68135e649
+        name:
+          type: string
+        owner:
+          $ref: '#/components/schemas/User'
+      required:
+        - name
+        - owner
+    Error:
+      title: Error
+      type: object
+      properties:
+        key:
+          type: string
+        status:
+          type: integer
+        error:
+          type: string
+      required:
+        - key
+        - status
+        - error
+  securitySchemes:
+    'Bearer: jwtToken':
+      name: Authorzation
+      type: apiKey
+      in: header
