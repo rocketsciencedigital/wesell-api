@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  title: Simple Inventory API
-  version: 1.0.0
-  description: The inital spect
+  title: WeSell API
+  version: 0.0.1
+  description: The inital spec
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
@@ -486,8 +486,14 @@ paths:
       description: Removes the logo from the store
       tags:
         - Store
-  /product:
-    parameters: []
+
+  /product/{productid}:
+    parameters:
+      - schema:
+          type: string
+        name: productid
+        in: path
+        required: true
     get:
       summary: Get Product
       tags:
@@ -500,16 +506,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Product-Response'
       operationId: get-store-storeid-product
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-              required:
-                - id
+     
+  /product:
+    parameters: []
     post:
       summary: Create Product
       operationId: post-store-storeid-product
@@ -561,7 +560,7 @@ paths:
                   description: The product ID to be removed
       tags:
         - Product
-  /account/stores:
+  '/account/{accountId}/stores':
     get:
       summary: Get the Stores for an Account
       tags:
@@ -576,15 +575,13 @@ paths:
                 items:
                   $ref: '#/components/schemas/Store-Response'
       operationId: get-account-stores
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                account_id:
-                  type: string
       description: This returns all the stores for a given account
+    parameters:
+      - schema:
+          type: string
+        name: accountId
+        in: path
+        required: true
   '/user/{userid}/accounts':
     get:
       summary: Get Accounts for a Given User
@@ -609,7 +606,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/Account-Response'
       operationId: get-users-accounts
-      requestBody: {}
       description: Gets a list of accounts for the user
     parameters:
       - schema:
@@ -617,7 +613,7 @@ paths:
         name: userid
         in: path
         required: true
-  /store/products:
+  '/store/{storeid}/products':
     get:
       summary: Get Products for a given Store
       tags:
@@ -661,6 +657,12 @@ paths:
           name: state
           description: filter the request by product state
       description: 'Get the products for a store, if no query params are passed all products are returned'
+    parameters:
+      - schema:
+          type: string
+        name: storeid
+        in: path
+        required: true
 components:
   schemas:
     User-Model:
