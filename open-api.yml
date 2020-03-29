@@ -15,7 +15,7 @@ paths:
   /user:
     parameters: []
     post:
-      summary: ''
+      summary: Create User
       operationId: post-user
       responses:
         '200':
@@ -597,14 +597,7 @@ paths:
                   error:
                     $ref: '#/components/schemas/Error-Model'
       operationId: get-users-userid
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
+      requestBody: {}
       description: Get the requested user information
       security:
         - 'Bearer: jwtToken': []
