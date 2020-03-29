@@ -734,8 +734,6 @@ components:
       properties:
         account_name:
           type: string
-        '':
-          type: string
     Store-Create:
       title: Store-Create
       type: object
