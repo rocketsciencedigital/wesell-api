@@ -657,7 +657,8 @@ paths:
         required: true
     get:
       summary: Get Product Image
-      tags: []
+      tags:
+        - Product
       responses:
         '200':
           description: OK
