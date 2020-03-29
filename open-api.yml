@@ -597,7 +597,6 @@ paths:
                   error:
                     $ref: '#/components/schemas/Error-Model'
       operationId: get-users-userid
-      requestBody: {}
       description: Get the requested user information
       security:
         - 'Bearer: jwtToken': []
