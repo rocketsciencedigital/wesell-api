@@ -14,8 +14,6 @@ servers:
 paths:
   /user:
     parameters: []
-    
-    
     post:
       summary: ''
       operationId: post-user
@@ -599,10 +597,6 @@ paths:
                   error:
                     $ref: '#/components/schemas/Error-Model'
       operationId: get-users-userid
-      parameters: []
-      security:
-        - 'Bearer: jwtToken': []
-      description: Get the requested user information
       requestBody:
         content:
           application/json:
@@ -611,6 +605,10 @@ paths:
               properties:
                 id:
                   type: string
+      description: Get the requested user information
+      security:
+        - 'Bearer: jwtToken': []
+      parameters: []
     patch:
       summary: Update User
       operationId: patch-user-userid
@@ -645,6 +643,29 @@ paths:
       tags:
         - User
       description: ''
+  '/product/{productid}/images/{image-id}':
+    parameters:
+      - schema:
+          type: string
+        name: productid
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: image-id
+        in: path
+        required: true
+    get:
+      summary: Get Product Image
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product-Response'
+      operationId: get-product-productid-images/image-id
 components:
   schemas:
     User-Model:
@@ -722,10 +743,10 @@ components:
           type: string
         price:
           type: string
-        image_urls:
+        images:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/Image-Response'
         quantity:
           type: string
         state:
@@ -816,6 +837,18 @@ components:
           type: string
       required:
         - auth_id
+    Product-Image-Response:
+      title: Product-Image-Response
+      type: object
+      properties:
+        id:
+          type: string
+        product_id:
+          type: string
+        url:
+          type: string
+        is_hero:
+          type: boolean
   securitySchemes:
     'Bearer: jwtToken':
       name: Authorzation
