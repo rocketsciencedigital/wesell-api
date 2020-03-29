@@ -196,54 +196,6 @@ paths:
         - Authentication
   /store:
     parameters: []
-    get:
-      summary: Get Store
-      tags:
-        - Store
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Store-Response'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    $ref: '#/components/schemas/Error-Model'
-      operationId: get-store-storeid
-      security:
-        - 'Bearer: jwtToken': []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-    patch:
-      summary: Update Store
-      operationId: patch-store-storeid
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Store-Response'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Store-Update'
-      tags:
-        - Store
     post:
       summary: Create Store
       operationId: post-store
@@ -271,23 +223,6 @@ paths:
       description: ''
       security:
         - 'Bearer: jwtToken': []
-      tags:
-        - Store
-    delete:
-      summary: Delete Store
-      operationId: delete-store
-      responses:
-        '200':
-          description: OK
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-      description: This will remove the store and all asociated products
       tags:
         - Store
   /store/publish:
@@ -553,7 +488,6 @@ paths:
       responses:
         '200':
           description: OK
-      requestBody: {}
       tags:
         - Product
   '/account/{accountid}':
@@ -638,6 +572,71 @@ paths:
                   $ref: '#/components/schemas/Account-Request'
       tags:
         - Account
+  '/store/{storeid}':
+    parameters:
+      - schema:
+          type: string
+        name: storeid
+        in: path
+        required: true
+    delete:
+      summary: Delete Store
+      operationId: delete-store-storeid
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+      description: This will remove the store and all asociated products
+      tags:
+        - Store
+    patch:
+      summary: Update Store
+      operationId: patch-store-storeid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store-Response'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Store-Update'
+      tags:
+        - Store
+    get:
+      summary: Get Store
+      tags:
+        - Store
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store-Response'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error-Model'
+      operationId: get-store-storeid
+      requestBody: {}
+      security:
+        - 'Bearer: jwtToken': []
 components:
   schemas:
     User-Model:
