@@ -667,6 +667,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Product-Response'
       operationId: get-product-productid-image-image-id
+    delete:
+      summary: Delete Product Image
+      operationId: delete-product-productid-image-image-id
+      responses:
+        '200':
+          description: OK
+      tags:
+        - Product
+      description: ''
   '/product/{productid}/image':
     parameters:
       - schema:
