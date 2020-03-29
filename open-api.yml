@@ -407,40 +407,6 @@ paths:
               $ref: '#/components/schemas/Product-Create'
       tags:
         - Product
-    patch:
-      summary: Update Product
-      operationId: patch-product
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product-Response'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Product-Update'
-      tags:
-        - Product
-    delete:
-      summary: Delete Product
-      operationId: delete-product
-      responses:
-        '200':
-          description: OK
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                  description: The product ID to be removed
-      tags:
-        - Product
   '/account/{accountId}/stores':
     get:
       summary: Get the Stores for an Account
@@ -556,7 +522,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product-Response'
-      operationId: get-productid-product
+      operationId: get-product--productid
       description: ''
     parameters:
       - schema:
@@ -564,6 +530,32 @@ paths:
         name: productid
         in: path
         required: true
+    patch:
+      summary: Update Product
+      operationId: patch-product-productid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product-Response'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product-Update'
+      tags:
+        - Product
+    delete:
+      summary: Delete Product
+      operationId: delete-product-productid
+      responses:
+        '200':
+          description: OK
+      requestBody: {}
+      tags:
+        - Product
   '/account/{accountid}':
     parameters:
       - schema:
@@ -792,9 +784,6 @@ components:
       title: Product-Update
       type: object
       properties:
-        id:
-          type: string
-          description: The product ID to update
         name:
           type: string
         "description'":
@@ -809,8 +798,6 @@ components:
             - Active
             - SoldOut
             - Archived
-      required:
-        - id
     User-Create:
       title: User-Create
       type: object
