@@ -788,7 +788,7 @@ components:
         images:
           type: array
           items:
-            $ref: '#/components/schemas/Image-Response'
+            $ref: '#/components/schemas/Product-Image-Response'
         quantity:
           type: string
         state:
