@@ -643,7 +643,7 @@ paths:
       tags:
         - User
       description: ''
-  '/product/{productid}/images/{image-id}':
+  '/product/{productid}/image/{image-id}':
     parameters:
       - schema:
           type: string
@@ -666,7 +666,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product-Response'
-      operationId: get-product-productid-images/image-id
+      operationId: get-product-productid-image-image-id
+  '/product/{productid}/image':
+    parameters:
+      - schema:
+          type: string
+        name: productid
+        in: path
+        required: true
+    post:
+      summary: Add Image to Product
+      operationId: post-product-productid-image
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product-Image-Response'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                is_hero:
+                  type: boolean
+                image:
+                  type: string
+                  format: binary
+        description: ''
+      description: ''
 components:
   schemas:
     User-Model:
