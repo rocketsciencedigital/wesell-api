@@ -207,7 +207,7 @@ paths:
               type: string
               format: binary
       tags:
-        - Store
+        - Store Logo
     patch:
       summary: Update Store Logo
       operationId: patch-store-storeid-logo
@@ -236,7 +236,7 @@ paths:
       security:
         - 'Bearer: jwtToken': []
       tags:
-        - Store
+        - Store Logo
     delete:
       summary: Delete Store Logo
       operationId: delete-store-storeid-logo
@@ -254,7 +254,7 @@ paths:
                     $ref: '#/components/schemas/Error-Model'
       description: Removes the logo from the store
       tags:
-        - Store
+        - Store Logo
   /product:
     parameters: []
     post:
@@ -901,4 +901,5 @@ tags:
   - name: User
   - name: Account
   - name: Store
+  - name: Store Logo
   - name: Product
