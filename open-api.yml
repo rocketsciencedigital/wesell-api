@@ -666,7 +666,7 @@ paths:
         '200':
           description: OK
       tags:
-        - Product
+        - Product Image
       description: ''
   '/product/{productid}/image':
     parameters:
