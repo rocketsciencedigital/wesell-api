@@ -14,74 +14,8 @@ servers:
 paths:
   /user:
     parameters: []
-    get:
-      summary: Get User
-      tags:
-        - User
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User-Model'
-              examples: {}
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    $ref: '#/components/schemas/Error-Model'
-      operationId: get-users-userid
-      parameters: []
-      security:
-        - 'Bearer: jwtToken': []
-      description: Get the requested user information
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-    patch:
-      summary: Update User
-      operationId: patch-user-userid
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User-Model'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    $ref: '#/components/schemas/Error-Model'
-      security:
-        - 'Bearer: jwtToken': []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                first_name:
-                  type: string
-                last_name:
-                  type: string
-      tags:
-        - User
-      description: ''
+    
+    
     post:
       summary: ''
       operationId: post-user
@@ -634,9 +568,83 @@ paths:
                   error:
                     $ref: '#/components/schemas/Error-Model'
       operationId: get-store-storeid
-      requestBody: {}
       security:
         - 'Bearer: jwtToken': []
+  '/user/{userid}':
+    parameters:
+      - schema:
+          type: string
+        name: userid
+        in: path
+        required: true
+    get:
+      summary: Get User
+      tags:
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User-Model'
+              examples: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error-Model'
+      operationId: get-users-userid
+      parameters: []
+      security:
+        - 'Bearer: jwtToken': []
+      description: Get the requested user information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+    patch:
+      summary: Update User
+      operationId: patch-user-userid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User-Model'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error-Model'
+      security:
+        - 'Bearer: jwtToken': []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+      tags:
+        - User
+      description: ''
 components:
   schemas:
     User-Model:
