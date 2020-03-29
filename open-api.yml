@@ -649,8 +649,6 @@ paths:
         required: true
     get:
       summary: Get Product Image
-      tags:
-        - Product
       responses:
         '200':
           description: OK
@@ -659,6 +657,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Product-Response'
       operationId: get-product-productid-image-image-id
+      tags:
+        - Product Image
     delete:
       summary: Delete Product Image
       operationId: delete-product-productid-image-image-id
@@ -699,7 +699,7 @@ paths:
         description: ''
       description: ''
       tags:
-        - Product
+        - Product Image
 components:
   schemas:
     User-Model:
