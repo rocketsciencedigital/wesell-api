@@ -697,6 +697,8 @@ paths:
                   format: binary
         description: ''
       description: ''
+      tags:
+        - Product
 components:
   schemas:
     User-Model:
